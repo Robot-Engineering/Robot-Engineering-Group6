@@ -1,0 +1,29 @@
+import xlwt
+import xlrd
+from xlutils.copy import copy
+
+
+picture=[]
+excel=xlrd.open_workbook(r'D:\testdat\student.xlsx') #打开excel文件
+sheet=excel.sheet_by_index(0)#获取工作薄
+rows:list=sheet.row_values(0) #获取第一行的内容['姓名', '学号', '图片位置']
+index=rows.index('图片位置') #获取'图片位置'列所在的列数
+listpicture=sheet.col_values(index) #获取'图片位置'列的所有内容
+for i in range(0,len(listpicture)):
+    if i!='图片位置':# 去除列名称"图片位置"
+        picture.append()
+print(picture)
+#单元格上色
+wb = xlwt.Workbook()
+ws = wb.add_sheet('Info')
+styleBlueBkg = xlwt.easyxf('pattern: pattern solid, fore_colour red;')  # 红色
+rb = xlrd.open_workbook(r'D:\testdat\student.xlsx')     
+ro = rb.sheets()[0]                     #读取表单0
+wb = copy(rb)                           #利用xlutils.copy下的copy函数复制
+ws = wb.get_sheet(0)                    #获取表单0
+col = index                             #指定修改的列(图片位置) 
+for i in range(ro.nrows):               
+    result = int(ro.cell(i, col).value)
+    if result == ' ':                     
+        ws.write(i,col,ro.cell(i, col).value,styleBlueBkg)
+wb.save(r'D:\testdat\student.xlsx')

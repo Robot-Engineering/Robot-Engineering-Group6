@@ -1,0 +1,45 @@
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint, Index
+from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy import create_engine
+
+
+engine = create_engine("mysql+pymysql://root:123@127.0.0.1:3306/t1", max_overflow=5)
+Base = declarative_base()
+class Robots(Base):
+    __tablename__ = 'logisticsRobots'
+    robotId = Column(Integer, primary_key=True)#机器人ID
+    robotModel = Column(String(32))#机器人型号
+    extra = Column(String(16))#备注
+
+        __table_args__ = (
+    UniqueConstraint('robotId', 'robotModel', robotModel='uix_id_name'),
+        Index('ix_id_name', 'robotModel', 'extra'),)
+#大小
+class Size(Base):
+    __tablename__ = 'size'
+    robotModel = Column(String(32), index=True, nullable=True)
+    length = Column(String(32))#长
+    width = Column(String(32))#宽
+    height = Column(String(32))#高
+#充电
+class Charge(Base):
+    __tablename__ = 'charge'
+    robotModel = Column(String(32), index=True, nullable=True)
+    chargingTime = Column(String(32))#充电时间
+    batteryLife= Column(String(32))#续航时间
+    adjustableWA= Column(String(32))#行走可调精度
+#行走速度 
+class Speed(Base):
+    __tablename__ = 'speed'
+    robotModel = Column(String(32), index=True, nullable=True)
+    no-loadWS= Column(String(32))#空载行走速度
+    fullLoadWS= Column(String(32))#满载行走速度
+#工作环境
+class Environment(Base):
+    __tablename__ = 'environment'
+    robotModel = Column(String(32), index=True, nullable=True)
+    storageE= Column(String(32))#储存环境
+    workE= Column(String(32))#工作环境
+
+ 

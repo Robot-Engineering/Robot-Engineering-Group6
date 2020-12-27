@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+
+# -*- coding:utf-8 -*-
+
+import pymysql
+conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='132409', db='test')
+
+
+cursor = conn.cursor()
+
+sql = "create table wlchart(id int auto_increment primary\
+key,name varchar(32),type varchar(32),per_price int,number int,totle_price varchar(32),tele varchar(32),time varchar(32),\
+address varchar(32))engine=INNODB default\
+charset=utf8;"
+
+cursor.execute(sql)
+sql_1 = "INSERT INTO wlchart(name,type,per_price,number,totle_price,tele,time,address) values('Tom','a',16,2,number*per_price,'123456','12.17','usst')"\
+
+cursor.execute(sql_1)
+
+sql_2 = "SELECT * FROM wlchart"
+
+cursor.execute(sql_2)
+
+result = cursor.fetchall()  # 获取全部查询结果，并赋值给result
+
+print(result)
